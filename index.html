@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wet N Joy Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Balloon Animation */
+        .balloon {
+            position: absolute;
+            bottom: -60px;
+            width: 50px;
+            height: 70px;
+            border-radius: 50%;
+            animation: floatUp 5s ease-in-out infinite;
+            opacity: 0.8;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .balloon:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 4px;
+            height: 20px;
+            background: black;
+            transform: translateX(-50%);
+        }
+
+        @keyframes floatUp {
+            0% {
+                bottom: -60px;
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(10px);
+            }
+
+            100% {
+                bottom: 100vh;
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+        }
+
+        /* Balloon Container */
+        #balloon-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        /* Improved Button Effects */
+        button {
+            transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Cool Fade-in for Messages */
+        #final-msg,
+        #no-msg {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-blue-100 flex flex-col items-center justify-center min-h-screen text-center p-4">
+
+    <!-- Main Container -->
+    <div id="main-content">
+        <!-- Logo -->
+        <!-- Logo Centered -->
+<div class="flex justify-center">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCebAtR6cbeGVVyfgzXThvh4keeS2EbDHa9Q&s"
+        alt="Wet N Joy Logo" class="w-32 h-32 mb-4 rounded-full shadow-lg">
+</div>
+
+
+        <!-- Heading -->
+        <h1 class="text-3xl font-bold text-blue-700">Wet N Joy Plan Apni Public</h1>
+
+        <!-- Gujarati Triple Star Text -->
+        <p class="text-lg mt-4 text-gray-800">★★★ Warsu thi Plan che Wet N Joy Jaawano ne Awe tyo 😆 ★★★</p>
+
+        <!-- Question -->
+        <p class="text-xl font-semibold mt-6">Jaawo Hoi to <span class="text-green-600">Yes</span> Karo, <span
+                class="text-red-600">No</span> Karo</p>
+
+        <!-- Buttons -->
+        <div class="mt-6">
+            <button onclick="startPlan()"
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full shadow-md">Yes</button>
+            <button onclick="noPlan()"
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full shadow-md ml-4">No</button>
+        </div>
+    </div>
+
+    <!-- Steps -->
+    <div id="steps" class="hidden mt-6 text-lg text-gray-900">
+        <h2 class="text-2xl font-bold text-blue-700 mb-4">Wet N Joy Jaawanu Step</h2>
+        <p>1️⃣ Pahla jaldi 3 vage utho, shearing nai regi, chal ke jao 😆</p>
+        <p>2️⃣ Malad thi Dadar local train 🚆</p>
+        <p>3️⃣ Dadar thi Lonavala train 90 rupiya 😭</p>
+        <p>4️⃣ Bus ya shearing bus no 20 rupiya sastu saaru 🚌</p>
+        <p>5️⃣ Shearing naa to 250 warna 300 🚖</p>
+        <p>6️⃣ Sidha Wet N Joy, Hadene jaawanu 10 min no rasto che 🏞</p>
+        <p>7️⃣ Jaher bhid ri to gayo ha, Baako maarish tane 🤬</p>
+        <p>8️⃣ Maja kari ne 1 vage lunch moge che, Daal Chawal 500 rupiya nu che 😂</p>
+        <p>9️⃣ Nathe khaawu, khawa Bhusha Raso, maje karin 6 vage bahar nakel waanu 🕕</p>
+        <div class="mt-6">
+            <button onclick="finalJaawu()"
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full shadow-md">Jaawu
+                Se</button>
+            <button onclick="noPlan()"
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full shadow-md ml-4">Naa
+                Jaawu</button>
+        </div>
+    </div>
+
+    <!-- Balloon Animation Container -->
+    <div id="balloon-container" class="relative w-full h-screen hidden"></div>
+
+    <!-- Final Message -->
+    <div id="final-msg" class="hidden mt-6 text-2xl font-bold text-green-600">🎈 Bag Tayyar Raakhi do Jaawa mate! 🎉
+    </div>
+    <div id="no-msg" class="hidden mt-6 text-2xl font-bold text-red-600">Paisa Bachi Gaya Saaru Che 😆</div>
+
+    <!-- JavaScript -->
+    <script>
+        function startPlan() {
+            document.getElementById("main-content").classList.add("hidden");
+            document.getElementById("steps").classList.remove("hidden");
+        }
+
+        function noPlan() {
+            document.getElementById("main-content").classList.add("hidden");
+            document.getElementById("steps").classList.add("hidden");
+            document.getElementById("no-msg").classList.remove("hidden");
+        }
+
+        function finalJaawu() {
+            document.getElementById("steps").classList.add("hidden");
+            document.getElementById("final-msg").classList.remove("hidden");
+
+            // Balloon Animation
+            let container = document.getElementById("balloon-container");
+            container.classList.remove("hidden");
+            container.innerHTML = '';
+
+            for (let i = 0; i < 10; i++) {
+                let balloon = document.createElement("div");
+                balloon.classList.add("balloon");
+                balloon.style.left = Math.random() * 90 + "%";
+                balloon.style.background = `hsl(${Math.random() * 360}, 80%, 60%)`; // Random Colors
+                container.appendChild(balloon);
+            }
+
+            setTimeout(() => {
+                container.classList.add("hidden");
+            }, 4000);
+        }
+    </script>
+
+</body>
+
+</html>
